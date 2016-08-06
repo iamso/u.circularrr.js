@@ -1,0 +1,39 @@
+{
+  "name": "u.circularrr.js",
+  "version": "0.1.0",
+  "description": "plugin for circular progress",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/iamso/u.circularrr.js.git"
+  },
+  "authors": [
+    "Steve Ottoz <so@dev.so>"
+  ],
+  "main": "dist/u.circularrr.min.js",
+  "license": "MIT",
+  "homepage": "https://github.com/iamso/u.circularrr.js.git",
+  "ignore": [
+    ".bower.json",
+    ".editorconfig",
+    ".git",
+    ".gitattributes",
+    ".gitignore",
+    "demo",
+    "doc",
+    "extensions",
+    "grunt",
+    "Gruntfile.js",
+    "node_modules",
+    "src"
+  ],
+  "keywords": [
+    "u.js",
+    "jquery",
+    "circular",
+    "progress"
+  ],
+  "dependencies": {
+    "u.js": "0.*",
+    "jquery": "*"
+  }
+}

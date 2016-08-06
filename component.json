@@ -1,0 +1,21 @@
+{
+  "name": "u.circularrr.js",
+  "repository": "iamso/u.circularrr.js",
+  "description": "plugin for circular progress",
+  "version": "0.1.0",
+  "keywords": [
+    "u.js",
+    "jquery",
+    "circular",
+    "progress"
+  ],
+  "scripts": [
+    "dist/u.circularrr.js",
+    "dist/u.circularrr.min.js",
+    "dist/u.circularrr.min.js.map",
+    "dist/jquery.circularrr.js",
+    "dist/jquery.circularrr.min.js",
+    "dist/jquery.circularrr.min.js.map"
+  ],
+  "license": "MIT"
+}
