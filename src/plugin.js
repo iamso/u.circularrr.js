@@ -94,7 +94,7 @@
         strokeDashoffset: percent,
       });
       this.$el.addClass('loading');
-      if (val === 100) {
+      if (val >= 100) {
         this.$el
           .removeClass('loading')
           .addClass('loaded');
