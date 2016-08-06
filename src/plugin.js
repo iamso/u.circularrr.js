@@ -61,7 +61,6 @@
         opacity: 0,
         stroke: this.options.progress,
         strokeWidth: this.options.border,
-        transition: 'stroke-dashoffset ' + this.options.transition,
       });
 
     this.init();
@@ -74,15 +73,15 @@
       this.radius = this.$progress.attr('r');
       this.totalLength = Math.PI*(this.radius*2);
       this.$progress.css({
-        transition: 'none',
+        transition: null,
         strokeDasharray: this.totalLength,
         strokeDashoffset: this.totalLength,
       });
       setTimeout(function() {
         _this.$progress.css({
-          transition: null,
+          transition: 'stroke-dashoffset ' + _this.options.transition,
         });
-      }, 1);
+      }, 0);
     },
     set: function(val) {
       var _this = this;
