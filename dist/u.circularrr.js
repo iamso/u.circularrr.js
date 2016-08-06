@@ -1,8 +1,8 @@
 /*!
- * u.circularrr.js - Version 0.1.0
+ * u.circularrr.js - Version 0.1.1
  * plugin for circular progress
  * Author: Steve Ottoz <so@dev.so>
- * Build date: 2016-08-06
+ * Build date: 2016-08-07
  * Copyright (c) 2016 Steve Ottoz
  * Released under the MIT license
  */
@@ -84,7 +84,6 @@
         opacity: 0,
         stroke: this.options.progress,
         strokeWidth: this.options.border,
-        transition: 'stroke-dashoffset ' + this.options.transition,
       });
 
     this.init();
@@ -97,15 +96,15 @@
       this.radius = this.$progress.attr('r');
       this.totalLength = Math.PI*(this.radius*2);
       this.$progress.css({
-        transition: 'none',
+        transition: null,
         strokeDasharray: this.totalLength,
         strokeDashoffset: this.totalLength,
       });
       setTimeout(function() {
         _this.$progress.css({
-          transition: null,
+          transition: 'stroke-dashoffset ' + _this.options.transition,
         });
-      }, 1);
+      }, 0);
     },
     set: function(val) {
       var _this = this;
@@ -117,7 +116,7 @@
         strokeDashoffset: percent,
       });
       this.$el.addClass('loading');
-      if (val === 100) {
+      if (val >= 100) {
         this.$el
           .removeClass('loading')
           .addClass('loaded');
