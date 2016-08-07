@@ -1,5 +1,5 @@
 /*!
- * u.circularrr.js - Version 0.1.1
+ * u.circularrr.js - Version 0.2.0
  * plugin for circular progress
  * Author: Steve Ottoz <so@dev.so>
  * Build date: 2016-08-07
@@ -39,6 +39,7 @@
     this._defaults = defaults;
     this._name = pluginName;
     this.ns = "http://www.w3.org/2000/svg";
+    this.transitionEnd = transitionEnd();
 
     this.$svg = this.$el.find('.' + pluginName);
     this.$bg = this.$el.find('.' + pluginName + '-bg');
@@ -117,9 +118,14 @@
       });
       this.$el.addClass('loading');
       if (val >= 100) {
-        this.$el
-          .removeClass('loading')
-          .addClass('loaded');
+        this.$progress.one(this.transitionEnd, function(e) {
+          var event = new Event(pluginName + '-complete');
+          _this.el.dispatchEvent(event);
+          _this.$el
+            .removeClass('loading')
+            .addClass('loaded');
+        });
+
       }
     },
     reset: function() {
@@ -128,6 +134,26 @@
     }
 
   };
+
+  function transitionEnd(){
+    var t,
+        el = document.createElement("fakeelement");
+
+    var transitions = {
+      "transition"      : "transitionend",
+      "OTransition"     : "oTransitionEnd",
+      "MozTransition"   : "transitionend",
+      "msTransition"    : "MSTransitionEnd",
+      "WebkitTransition": "webkitTransitionEnd"
+    };
+
+    for (t in transitions){
+      if (el.style[t] !== undefined){
+        return transitions[t];
+      }
+    }
+    return "transitionend";
+  }
 
   // A really lightweight plugin wrapper around the constructor,
   // preventing against multiple instantiations
