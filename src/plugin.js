@@ -36,13 +36,13 @@
     }
 
     this.$svg
-      .addClass(pluginName)
+      .attr('class', pluginName)
       .attr('viewBox', '0 0 ' + this.options.size + ' ' + this.options.size)
       .css({
         transform: 'rotate(-90deg)'
       });
     this.$bg
-      .addClass(pluginName + '-bg')
+      .attr('class', pluginName + '-bg')
       .attr('cx', (this.options.size / 2))
       .attr('cy', (this.options.size / 2))
       .attr('r', Math.floor((this.options.size - this.options.border) / 2))
@@ -53,7 +53,7 @@
         strokeWidth: this.options.border,
       });
     this.$progress
-      .addClass(pluginName + '-progress')
+      .attr('class', pluginName + '-progress')
       .attr('cx', (this.options.size / 2))
       .attr('cy', (this.options.size / 2))
       .attr('r', Math.floor((this.options.size - this.options.border) / 2))
