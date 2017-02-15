@@ -6,7 +6,7 @@
         border: 3,
         bg: 'ghostwhite',
         progress: 'lightgreen',
-        transition: '0.8s cubic-bezier(0.19, 1, 0.22, 1)',
+        duration: 1500,
       };
 
   function Circularrr(element, options) {
@@ -16,7 +16,6 @@
     this._defaults = defaults;
     this._name = pluginName;
     this.ns = "http://www.w3.org/2000/svg";
-    this.transitionEnd = transitionEnd();
 
     this.$svg = this.$el.find('.' + pluginName);
     this.$bg = this.$el.find('.' + pluginName + '-bg');
@@ -70,39 +69,53 @@
   Circularrr.prototype = {
 
     init: function() {
-      var _this = this;
       this.radius = this.$progress.attr('r');
       this.totalLength = Math.PI*(this.radius*2);
+      this.current = 0;
+      this.from = 0;
+      this.to = 0;
+      this.start = 0;
+      this.frame = 0;
       this.$progress.css({
-        transition: null,
         strokeDasharray: this.totalLength,
         strokeDashoffset: this.totalLength,
       });
-      setTimeout(function() {
-        _this.$progress.css({
-          transition: 'stroke-dashoffset ' + _this.options.transition,
-        });
-      }, 0);
     },
+
     set: function(val) {
-      var _this = this;
+      this.from = Math.max(this.current, 0);
+      this.to = Math.min(+val, 100);
+      this.duration = (this.to - this.from) * (this.options.duration / 100);
+      this.start = new Date();
+      this.$el.addClass('loading');
+      cancelAnimationFrame(this.frame);
+      this._animate();
+    },
+
+    _animate: function() {
+      var now = new Date();
+      if (this.current >= this.to) {
+        return false;
+      }
+      var p = (now - this.start) / this.duration;
+      var val = easing(p);
+      this.current = Math.round(this.from + (this.to - this.from) * val);
+      this._set(this.current);
+      this.frame = requestAnimationFrame(this._animate.bind(this));
+    },
+
+    _set: function(val) {
       var percent = ((100-val)/100) * this.totalLength;
-      val > 100 && (percent = 0);
-      val < 0 && (percent = this.totalLength);
       this.$progress.css({
         opacity: 1,
         strokeDashoffset: percent,
       });
-      this.$el.addClass('loading');
-      if (val >= 100) {
-        this.$progress.one(this.transitionEnd, function(e) {
-          var event = new Event(pluginName + '-complete');
-          _this.el.dispatchEvent(event);
-          _this.$el
-            .removeClass('loading')
-            .addClass('loaded');
-        });
 
+      if (val >= 100) {
+        this.$el
+          .trigger(pluginName + '-complete')
+          .removeClass('loading')
+          .addClass('loaded');
       }
     },
     reset: function() {
@@ -112,24 +125,17 @@
 
   };
 
-  function transitionEnd(){
-    var t,
-        el = document.createElement("fakeelement");
-
-    var transitions = {
-      "transition"      : "transitionend",
-      "OTransition"     : "oTransitionEnd",
-      "MozTransition"   : "transitionend",
-      "msTransition"    : "MSTransitionEnd",
-      "WebkitTransition": "webkitTransitionEnd"
-    };
-
-    for (t in transitions){
-      if (el.style[t] !== undefined){
-        return transitions[t];
-      }
+  function easing(t) {
+    if (t === 0) {
+      return 0;
     }
-    return "transitionend";
+    if (t === 1) {
+      return 1;
+    }
+    if ((t /= 1 / 2) < 1) {
+      return 1 / 2 * Math.pow(2, 10 * (t - 1));
+    }
+    return 1 / 2 * (-Math.pow(2, -10 * --t) + 2);
   }
 
   // A really lightweight plugin wrapper around the constructor,
