@@ -7,7 +7,7 @@ While loading it adds the `loading` class to the element, when it's done it add 
 Usage
 -----
 
-Setup (with default options): 
+Setup (with default options):
 
 ```javascript
 u('selector').circularrr({
@@ -15,17 +15,17 @@ u('selector').circularrr({
   border: 3,
   bg: 'ghostwhite',
   progress: 'lightgreen',
-  transition: '0.8s cubic-bezier(0.19, 1, 0.22, 1)',
+  duration: 1500,
 });
 ```
 
-Set: 
+Set:
 
 ```javascript
 u('selector').circularrr(10); // from 0 to 100
 ```
 
-Reset: 
+Reset:
 
 ```javascript
 u('selector').circularrr('reset');
